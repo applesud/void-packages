@@ -1,0 +1,43 @@
+# Template file for 'sbase'
+pkgname=sbase
+version=3eb89c44aa788c1b122e7967f4a7a9a3b98322e9
+revision=1
+build_style=gnu-makefile
+short_desc="Simple, portable coreutils alternative"
+maintainer="Jo Becker <applesuddev@gmail.com>"
+license="MIT"
+homepage="https://github.com/michaelforney/sbase"
+distfiles="https://github.com/michaelforney/sbase/archive/${version}.tar.gz"
+checksum=2d5c7c3a450f011d98283e89ca6e822b62462e8d74545e9dd4913c9b42cb417f
+
+alternatives="[:/usr/bin/[:/usr/bin/test"
+exclude="tar"
+
+do_configure() {
+	cat <<-"_EOF" >config.mk
+	VERSION = 1.0
+ 
+	PREFIX = /usr
+	MANPREFIX = $(PREFIX)/share/man
+ 
+	CC = cc
+	AR = ar
+	RANLIB = ranlib
+ 
+	CPPFLAGS = -D_DEFAULT_SOURCE -D_BSD_SOURCE -D_XOPEN_SOURCE=700 -D_FILE_OFFSET_BITS=64
+	CFLAGS   = -std=c99 -Wall -pedantic
+	LDFLAGS  = -s
+	_EOF
+}
+
+pre_install() {
+	for i in $exclude; do
+		find . -type f -executable -name $i     | while read fname; do rm "$fname"; done
+		find . -type f -regex '.*/'$i'\.[0-9]*' | while read fname; do rm "$fname"; done
+	done
+}
+
+do_install() {
+	find . -executable         -type f | while read fname; do vbin "$fname"; done
+	find . -regex '.*\.[0-9]*' -type f | while read fname; do vman "$fname"; done
+}
