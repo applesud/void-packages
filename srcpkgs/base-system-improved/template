@@ -1,0 +1,32 @@
+# Template file for 'base-system'
+pkgname=base-system-improved
+version=0.114
+revision=1
+build_style=meta
+short_desc="Void Linux base system meta package"
+maintainer="Enno Boland <gottox@voidlinux.org>"
+license="Public Domain"
+homepage="https://www.voidlinux.org"
+
+# TODO: Impliment New Packages
+# base-files-improved (base-files)
+# sbase               (coreutils)
+# ubase               (util-linux)
+# fzf-minimal         (fzf)
+
+depends="
+ base-files sbase ubase diffutils fzf-minimal rc
+ libgcc dash ripgrep pigz file which bsdtar kak
+ man-pages mdocml>=1.13.3 shadow e2fsprogs ncurses
+ kbd wpa_supplicant xbps opendoas wifi-firmware
+ tzdata pciutils usbutils iana-etc openssh dhcpcd
+ kmod acpid eudev runit-void removed-packages"
+
+case "$XBPS_TARGET_MACHINE" in
+	*-musl) depends+=" musl";;
+	*) depends+=" glibc-locales";;
+esac
+
+case "$XBPS_TARGET_MACHINE" in
+	i686*|x86_64*|ppc*) depends+=" linux";;
+esac
