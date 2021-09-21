@@ -1,0 +1,21 @@
+# Template file for 'font-inter'
+pkgname=font-inter
+version=3.19
+revision=1
+wrksrc="font-inter"
+create_wrksrc=yes
+depends="font-util"
+short_desc="Font family designed for high legibility on screens"
+maintainer="Jo Becker <applesuddev@gmail.com>"
+license="OFL-1.1"
+homepage="https://rsms.me/inter/"
+distfiles="https://github.com/rsms/inter/releases/download/v3.19/Inter-3.19.zip"
+checksum=150ab6230d1762a57bebf35dfc04d606ff91598a31d785f7f100356ecdcc0032
+font_dirs="/usr/share/fonts/OTF/"
+
+do_install() {
+	for i in "${wrksrc}/Inter Desktop/"*.otf; do
+		vinstall "$i" 644 usr/share/fonts/OTF/
+	done
+	vinstall "${wrksrc}/Inter Desktop/Inter-V.ttf" 644 usr/share/fonts/TTF/
+}
