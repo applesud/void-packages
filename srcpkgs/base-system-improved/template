@@ -3,8 +3,8 @@ pkgname=base-system-improved
 version=0.114
 revision=1
 build_style=meta
-short_desc="Void Linux base system meta package"
-maintainer="Enno Boland <gottox@voidlinux.org>"
+short_desc="Improved Void Linux base system meta package"
+maintainer="Jo Becker <applesuddev@gmail.com>"
 license="Public Domain"
 homepage="https://www.voidlinux.org"
 
@@ -14,13 +14,13 @@ homepage="https://www.voidlinux.org"
 # ubase               (util-linux)
 # fzf-minimal         (fzf)
 
-depends="
- base-files sbase ubase diffutils fzf-minimal rc
- libgcc dash ripgrep pigz file which bsdtar kak
+depends="bash
+ base-files sbase ubase diffutils fzf-minimal dash
+ libgcc rc ripgrep pigz file which bsdtar binutils
  man-pages mdocml>=1.13.3 shadow e2fsprogs ncurses
- kbd wpa_supplicant xbps opendoas wifi-firmware
- tzdata pciutils usbutils iana-etc openssh dhcpcd
- kmod acpid eudev runit-void removed-packages"
+ kbd wpa_supplicant openssh opendoas wifi-firmware
+ tzdata pciutils usbutils iana-etc dhcpcd xbps kak
+ kmod acpid eudev runit-void removed-packages curl"
 
 case "$XBPS_TARGET_MACHINE" in
 	*-musl) depends+=" musl";;
