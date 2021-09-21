@@ -1,0 +1,41 @@
+# Template file for 'ubase'
+pkgname=ubase
+version=f152e7fc3bd1675060818ac224f96541a2d9d6e7
+revision=1
+build_style=gnu-makefile
+short_desc="Simple linux-only util-linux alternative"
+maintainer="Jo Becker <applesuddev@gmail.com>"
+license="MIT"
+homepage="https://github.com/michaelforney/ubase"
+distfiles="https://github.com/michaelforney/ubase/archive/${version}.tar.gz"
+checksum=be319d03ee878a27969495043b15d955afb78efa3286531ee86d0d747a6522c4
+
+do_configure() {
+	cat <<-"_EOF" >config.mk
+	VERSION = 1.0
+ 
+	PREFIX = /usr
+	MANPREFIX = $(PREFIX)/share/man
+ 
+	CC = cc
+	AR = ar
+	RANLIB = ranlib
+ 
+	CPPFLAGS = -D_GNU_SOURCE -D_XOPEN_SOURCE=700 -D_FILE_OFFSET_BITS=64
+	CFLAGS   = -std=c99 -Wall -Wextra
+	LDLIBS   = -lcrypt
+	LDFLAGS  = -s
+	_EOF
+}
+
+pre_install() {
+	for i in $exclude; do
+		find . -type f -executable -name $i     | while read fname; do rm "$fname"; done
+		find . -type f -regex '.*/'$i'\.[0-9]*' | while read fname; do rm "$fname"; done
+	done
+}
+
+do_install() {
+	find . -executable         -type f | while read fname; do vbin "$fname"; done
+	find . -regex '.*\.[0-9]*' -type f | while read fname; do vman "$fname"; done
+}
