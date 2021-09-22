@@ -1,4 +1,4 @@
-# Template file for 'base-system'
+# Template file for 'base-system-improved'
 pkgname=base-system-improved
 version=0.114
 revision=1
@@ -8,19 +8,16 @@ maintainer="Jo Becker <applesuddev@gmail.com>"
 license="Public Domain"
 homepage="https://www.voidlinux.org"
 
-# TODO: Impliment New Packages
-# base-files-improved (base-files)
-# sbase               (coreutils)
-# ubase               (util-linux)
-# fzf-minimal         (fzf)
-
-depends="bash
- base-files sbase ubase diffutils fzf-minimal dash
- libgcc rc ripgrep pigz file which bsdtar binutils
- man-pages mdocml>=1.13.3 shadow e2fsprogs ncurses
- kbd wpa_supplicant openssh opendoas wifi-firmware
- tzdata pciutils usbutils iana-etc dhcpcd xbps kak
- kmod acpid eudev runit-void removed-packages curl"
+depends="
+ base-files base-files-extra xbps runit-void removed-packages tzdata
+ kbd wpa_supplicant openssh wifi-firmware kmod acpid eudev pam_rundir
+ dbus dhcpcd v4l2loopback ncurses shadow usbutils e2fsprogs pciutils 
+ sbase ubase diffutils dash bash binutils samurai xtools entr bsdtar
+ pigz man-pages mdocml>=1.13.3 opendoas curl ffmpeg htop rc fzf-minimal
+ ripgrep kakoune git lolcat-c figlet figlet-fonts neofetch cmatrix lua
+ LuaJIT gcc patch pipewire alsa-pipewire libjack-pipewire sway rofi
+ font-inter font-adobe-source-code-pro noto-fonts-emoji papirus-icon-theme
+ grim slurp kitty spotify audacity google-chrome discord krita libreoffice"
 
 case "$XBPS_TARGET_MACHINE" in
 	*-musl) depends+=" musl";;
