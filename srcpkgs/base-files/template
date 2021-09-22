@@ -54,11 +54,6 @@ do_install() {
 		vinstall "${FILESDIR}/ld.so.lib32.conf" 644 etc/ld.so.conf.d lib32.conf
 	fi
 
-	# Install misc config files.
-	for f in bash_logout bash_profile bashrc inputrc; do
-		vinstall ${FILESDIR}/dot_${f} 644 etc/skel .${f}
-	done
-
 	vinstall ${FILESDIR}/securetty 600 etc
 	for f in profile hosts host.conf issue subuid subgid \
 		inputrc fstab passwd group crypttab nsswitch.conf; do
