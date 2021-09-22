@@ -1,0 +1,45 @@
+evaluate-commands %sh{
+    plugins="$kak_config/plugins"
+    mkdir -p "$plugins"
+    [ ! -e "$plugins/plug.kak" ] && \
+        git clone -q https://github.com/andreyorst/plug.kak.git "$plugins/plug.kak"
+    printf "%s\n" "source '$plugins/plug.kak/rc/plug.kak'"
+}
+plug "andreyorst/plug.kak" noload
+
+plug "raiguard/one.kak" theme %{ colorscheme one-dark }
+
+plug "kak-lsp/kak-lsp" do %{
+    cargo install --locked --force --path .
+}
+
+plug "andreyorst/powerline.kak" config %{
+    powerline-start
+}
+
+plug "danr/kakoune-easymotion" config %{
+    map global normal t ': easy-motion-line<ret>'
+}
+
+map global normal <semicolon> <a-semicolon>
+map global normal <x> <a-x>
+
+hook global InsertChar '[jk]' %{ try %{
+    hook -group jkinner global InsertChar '[jk]' %{
+        exec -draft hH <a-k>[jk]{2}<ret> d
+        exec <esc>
+    }
+    hook -group jkinner global InsertIdle .* %{
+        rmhooks global jkinner
+    }
+}}
+
+# Use system's clipboard
+hook global NormalKey y|d|c %{ nop %sh{
+    printf %s "$kak_main_reg_dquote" | wl-copy > /dev/null 2>&1 &
+}}
+
+set-option global scrolloff 3,5
+add-highlighter global/ wrap -word -indent
+
+map global normal = ': prompt math: %{exec ": echo %val{text}<lt>ret>a%val{text}<lt>esc>|qalc -t +u8 -f -<lt>ret>"}<ret>'

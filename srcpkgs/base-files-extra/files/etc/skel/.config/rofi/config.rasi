@@ -1,0 +1,5 @@
+configuration {
+    icon-theme: "Papirus";
+    theme: "themes/colourful_dark";
+    modi: "drun,window,calc,run";
+}

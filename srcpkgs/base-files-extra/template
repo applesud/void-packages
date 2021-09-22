@@ -1,0 +1,22 @@
+# Template file for 'base-files-extra'
+pkgname=base-files-extra
+version=0.142
+revision=11
+bootstrap=yes
+depends="xbps-triggers"
+short_desc="Void Linux base system files"
+maintainer="Jo Becker <applesuddev@gmail.com>"
+license="Public Domain"
+homepage="https://www.voidlinux.org"
+conf_files="
+	/etc/kitty/kitty.conf
+	/etc/kakoune/kakrc
+	/etc/skel/.config/kitty/kitty.conf
+	/etc/skel/.config/kak/kakrc"
+
+do_install() {
+	find "${FILESDIR}/etc/" -type f -printf '%P\0' | while read -d $'\0' fname; do
+	        dir=$(dirname "${fname}")
+		vinstall "${FILESDIR}/etc/${fname}" 644 "etc/${dir}/"
+	done
+}
